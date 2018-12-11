@@ -69,7 +69,7 @@ public class CassandraBaseDAO {
     }
 
     private String getCreateKeyspaceStatement() {
-        return SchemaBuilder.createKeyspace(config.getKeyspace())
+        return SchemaBuilder.createKeyspace(config.getCassandraKeyspace())
                 .ifNotExists()
                 .with()
                 .replication(ImmutableMap.of("class", config.getReplicationStrategy(), config.getReplicationFactorKey(), config.getReplicationFactorValue()))
@@ -78,7 +78,7 @@ public class CassandraBaseDAO {
     }
 
     private String getCreateWorkflowsTableStatement() {
-        return SchemaBuilder.createTable(config.getKeyspace(), TABLE_WORKFLOWS)
+        return SchemaBuilder.createTable(config.getCassandraKeyspace(), TABLE_WORKFLOWS)
                 .ifNotExists()
                 .addPartitionKey(WORKFLOW_ID_KEY, DataType.uuid())
                 .addPartitionKey(SHARD_ID_KEY, DataType.cint())
@@ -91,7 +91,7 @@ public class CassandraBaseDAO {
     }
 
     private String getCreateTaskLookupTableStatement() {
-        return SchemaBuilder.createTable(config.getKeyspace(), TABLE_TASK_LOOKUP)
+        return SchemaBuilder.createTable(config.getCassandraKeyspace(), TABLE_TASK_LOOKUP)
                 .ifNotExists()
                 .addPartitionKey(TASK_ID_KEY, DataType.uuid())
                 .addColumn(WORKFLOW_ID_KEY, DataType.uuid())

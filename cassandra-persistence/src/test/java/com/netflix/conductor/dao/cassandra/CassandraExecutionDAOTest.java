@@ -36,6 +36,7 @@ import java.util.List;
 import static com.netflix.conductor.dao.cassandra.CassandraBaseDAO.WorkflowMetadata;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class CassandraExecutionDAOTest {
     private final TestConfiguration testConfiguration = new TestConfiguration();
@@ -115,9 +116,8 @@ public class CassandraExecutionDAOTest {
         executionDAO.removeWorkflow(workflowId);
 
         // read workflow again
-        expectedException.expect(ApplicationException.class);
-        expectedException.expectMessage("not found in data store");
-        executionDAO.getWorkflow(workflowId, true);
+        workflow = executionDAO.getWorkflow(workflowId, true);
+        assertNull(workflow);
     }
 
     @Test

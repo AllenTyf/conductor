@@ -142,7 +142,7 @@ public class TestConfiguration implements CassandraConfiguration {
     }
 
     @Override
-    public String getKeyspace() {
+    public String getCassandraKeyspace() {
         return "junit";
     }
 

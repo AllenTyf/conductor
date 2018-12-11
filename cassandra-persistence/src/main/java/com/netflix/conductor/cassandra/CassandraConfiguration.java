@@ -22,6 +22,9 @@ public interface CassandraConfiguration extends Configuration {
     String CASSANDRA_PORT_PROPERTY_NAME = "workflow.cassandra.port";
     int CASSANDRA_PORT_DEFAULT_VALUE = 9142;
 
+    String CASSANDRA_CLUSTER_PROPERTY_NAME = "workflow.cassandra.cluster";
+    String CASSANDRA_CLUSTER_DEFAULT_VALUE = "";
+
     String CASSANDRA_KEYSPACE_PROPERTY_NAME = "workflow.cassandra.keyspace";
     String CASSANDRA_KEYSPACE_DEFAULT_VALUE = "conductor";
 
@@ -45,7 +48,11 @@ public interface CassandraConfiguration extends Configuration {
         return getIntProperty(CASSANDRA_PORT_PROPERTY_NAME, CASSANDRA_PORT_DEFAULT_VALUE);
     }
 
-    default String getKeyspace() {
+    default String getCassandraCluster() {
+        return getProperty(CASSANDRA_CLUSTER_PROPERTY_NAME, CASSANDRA_CLUSTER_DEFAULT_VALUE);
+    }
+
+    default String getCassandraKeyspace() {
         return getProperty(CASSANDRA_KEYSPACE_PROPERTY_NAME, CASSANDRA_KEYSPACE_DEFAULT_VALUE);
     }
 

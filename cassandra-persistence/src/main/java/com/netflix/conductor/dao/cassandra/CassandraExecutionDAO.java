@@ -117,7 +117,7 @@ public class CassandraExecutionDAO extends CassandraBaseDAO implements Execution
 
     /**
      * Inserts tasks into the Cassandra datastore.
-     <b>Note:</b>
+     * <b>Note:</b>
      * Creates the task_id to workflow_id mapping in the task_lookup table first.
      * Once this succeeds, inserts the tasks into the workflows table. Tasks belonging to the same shard are created using batch statements.
      *
@@ -355,10 +355,10 @@ public class CassandraExecutionDAO extends CassandraBaseDAO implements Execution
                 resultSet = session.execute(selectWorkflowWithTasksStatement.bind(UUID.fromString(workflowId), DEFAULT_SHARD_ID));
                 List<Task> tasks = new ArrayList<>();
 
-
                 List<Row> rows = resultSet.all();
                 if (rows.size() == 0) {
-                    throw new ApplicationException(ApplicationException.Code.NOT_FOUND, String.format("Workflow: %s not found in data store", workflowId));
+                    LOGGER.info("Workflow {} not found in datastore", workflowId);
+                    return null;
                 }
                 for (Row row : rows) {
                     if (ENTITY_TYPE_WORKFLOW.equals(row.getString(ENTITY_KEY))) {
@@ -376,7 +376,7 @@ public class CassandraExecutionDAO extends CassandraBaseDAO implements Execution
                 resultSet = session.execute(selectWorkflowStatement.bind(UUID.fromString(workflowId)));
                 workflow = Optional.ofNullable(resultSet.one())
                         .map(row -> readValue(row.getString(PAYLOAD_KEY), Workflow.class))
-                        .orElseThrow(() -> new ApplicationException(ApplicationException.Code.NOT_FOUND, String.format("Workflow: %s not found in data store", workflowId)));
+                        .orElse(null);
             }
             recordCassandraDaoRequests("getWorkflow", "n/a", workflow.getWorkflowName());
             return workflow;

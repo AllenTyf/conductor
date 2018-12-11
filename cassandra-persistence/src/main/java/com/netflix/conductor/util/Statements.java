@@ -37,11 +37,10 @@ public class Statements {
 
     @Inject
     public Statements(CassandraConfiguration config) {
-        this.keyspace = config.getKeyspace();
+        this.keyspace = config.getCassandraKeyspace();
     }
 
     // Insert Statements
-
     /**
      * @return cql query statement to insert a new workflow into the "workflows" table
      */
@@ -71,7 +70,6 @@ public class Statements {
     }
 
     // Select Statements
-
     /**
      * @return cql query statement to retrieve the total_tasks and total_partitions for a workflow from the "workflows" table
      */
